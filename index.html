@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>瀑布流</title>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+  <div id="container" class="container">
+    <div class="item">
+      <div class="pic">
+        <img src="img/1.jpg" >
+      </div>
+      <div class="text">
+        hello! how are you ?
+      </div> 
+    </div>
+  </div>
+</body>
+</html>
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="js/masonry.pkgd.js"></script>
+<script src="js/imagesloaded.pkgd.js"></script>
+
+<script>
+$(function(){
+  var $container = $('#container');
+  var data = [1,2,3,1,2,3,2,3,1,2,3,1,2,3,1,2,3,2,3,1,2,3,1,2,3,1,2,3,2,3,1,2,3];
+
+  // init
+  function init(){
+    var html = '';
+    for ( var i = 0; i < 20; i++ ) {
+         html += '<div class="item"><div class="pic"><img src="img/'+data[i]+'.jpg" > </div> <div class="text">hello! how are you ?</div>  </div>';
+    }
+    $container.html(html);
+    $container.imagesLoaded( function(){
+      $container.masonry({
+        itemSelector : '.item',
+        columnWidth: 250,
+        gutter:10,
+       isFitWidth:true
+     });
+    });
+  }
+
+  init();
+
+  function addItems(){
+      var elems = [];
+      var fragment = document.createDocumentFragment();
+      for ( var i = 0; i < 15; i++ ) {
+        var elem = $('<div class="item"><div class="pic"><img src="img/'+data[i]+'.jpg" > </div> <div class="text">hello! how are you ?</div></div>')[0] //getItemElement();
+        fragment.appendChild( elem );
+        elems.push( elem );
+      }
+      // append elements to container
+      container.appendChild( fragment );
+      // add and lay out newly appended elements
+     // msnry.appended( elems );
+      $container.masonry( 'appended', elems);
+
+  }
+
+  // scroll
+  window.onscroll = function() { 
+    if($(window).scrollTop()!==0 && $(document).height() == $(window).scrollTop()+ $(window).height()){
+      addItems();
+    }
+  }
+
+});
+</script>
